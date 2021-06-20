@@ -1,9 +1,15 @@
 import './App.css';
+import Header from './component/Header/Header';
+import Sidebar from './component/Sidebar/Sidebar';
 
 function App() {
   return (
     <div className="app">
-      <h1>facebook Clone</h1>
+      <Header />
+
+      <div className="app__body">
+        <Sidebar />
+      </div>
     </div>
   );
 }
