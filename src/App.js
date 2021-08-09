@@ -1,18 +1,37 @@
-import './App.css';
-import Header from './component/Header/Header';
-import Sidebar from './component/Sidebar/Sidebar';
-import Feed from './component/Feed/Feed';
+import "./App.css";
+import { Switch, BrowserRouter as Router } from "react-router-dom";
+import React from "react";
+
+import { authProtectedRoutes, publicRoutes } from "./routes/";
+import AppRoute from "./routes/route";
 
 function App() {
+  console.log("authProtectedRoutes :: ", authProtectedRoutes)
+  console.log("publicRoutes :: ", publicRoutes)
   return (
-    <div className="app">
-      <Header />
+    <React.Fragment>
+      <Router>
+        <Switch>
+          {publicRoutes.map((route, idx) => (
+            <AppRoute
+              path={route.path}
+              component={route.component}
+              key={idx}
+              isAuthProtected={false}
+            />
+          ))}
 
-      <div className="app__body">
-        <Sidebar />
-        <Feed />
-      </div>
-    </div>
+          {authProtectedRoutes.map((route, idx) => (
+            <AppRoute
+              path={route.path}
+              component={route.component}
+              key={idx}
+              isAuthProtected={true}
+            />
+          ))}
+        </Switch>
+      </Router>
+    </React.Fragment>
   );
 }
 

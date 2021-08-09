@@ -1,16 +1,25 @@
-import React, {useState} from "react";
+import React, { useState, useRef } from "react";
 import "./MessageSender.css";
 import { Avatar } from "@material-ui/core";
 import { Videocam, PhotoLibrary, InsertEmoticon } from "@material-ui/icons";
+import { onInputChange, createPost } from "../../store/post/actions";
+import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
+import { getValidator } from "../../helpers/utils";
 
-function MessageSender() {
-
-  const [input, setInput] = useState("")
-
+function MessageSender(props) {
+  const validator = useRef(getValidator());
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    setInput("")
+    if (validator.current.allValid()) {
+      console.log("post ", props.postContent);
+      props.createPost({
+        content: props.postContent
+      })
+    } else {
+      console.log("validator erro");
+      validator.current.showMessages();
+    }
   };
   return (
     <div className="messageSender">
@@ -21,9 +30,12 @@ function MessageSender() {
             type="text"
             placeholder="What's on your mind.. "
             className="messageSender__input"
-            value={input}
-            onChange={e => setInput(e.target.value)}
+            value={props.postContent}
+            onChange={(e) => props.onInputChange("postContent", e.target.value)}
           />
+          {validator.current.message("postContent", props.postContent, "_required", {
+            className: "text-red-500 text-xs",
+          })}
           <button onClick={handleSubmit} type="submit">
             Hidden Submit
           </button>
@@ -31,20 +43,28 @@ function MessageSender() {
       </div>
       <div className="messageSender__bottom">
         <div class="messageSender__option">
-            <Videocam style={{ color: 'red' }} />
-            <h3>Live Video</h3>
+          <Videocam style={{ color: "red" }} />
+          <h3>Live Video</h3>
         </div>
         <div class="messageSender__option">
-            <PhotoLibrary style={{ color: 'green' }} />
-            <h3>Photo/Video</h3>
+          <PhotoLibrary style={{ color: "green" }} />
+          <h3>Photo/Video</h3>
         </div>
         <div class="messageSender__option">
-            <InsertEmoticon style={{ color: 'orange' }} />
-            <h3>Feeling/Activity</h3>
+          <InsertEmoticon style={{ color: "orange" }} />
+          <h3>Feeling/Activity</h3>
         </div>
       </div>
     </div>
   );
 }
 
-export default MessageSender;
+// export default MessageSender;
+const mapStateToProps = (state) => {
+  const { postContent, postError } = state.Post;
+  return { postContent, postError };
+};
+
+export default withRouter(
+  connect(mapStateToProps, { onInputChange, createPost })(MessageSender)
+);

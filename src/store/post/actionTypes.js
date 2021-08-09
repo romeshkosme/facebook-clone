@@ -1,0 +1,4 @@
+export const CREATE_POST = 'CREATE_POST'
+export const ON_LOGIN_INPUT_CHANGE = 'ON_LOGIN_INPUT_CHANGE'
+export const GET_ALL = 'GET_ALL'
+export const GET_ALL_SUCCESS = 'GET_ALL_SUCCESS'

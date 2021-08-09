@@ -37,7 +37,7 @@
 }
 
 .post__options {
-    padding:10px;
+    padding-top: 10px;
     border-top: 1px solid lightgray;
     display: flex;
     justify-content: space-evenly;

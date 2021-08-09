@@ -8,8 +8,24 @@ import ChatIcon from '@material-ui/icons/Chat';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import VideoLibraryIcon from '@material-ui/icons/VideoLibrary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import axios from 'axios';
 
 function Sidebar() {
+
+    const hello = () => {
+        console.log("hello called")
+        axios({
+            method: 'post',
+            url: 'localhost:8080/hello',
+            data: {
+              firstName: 'Fred',
+              lastName: 'Flintstone'
+            }
+          }).then(res => {
+              console.log("resssssssssssss  :: ", res)
+          })
+    }
+
     return (
         <div className="sidebar">
             <SidebarRow src={""} title="Romesh Kosme" />

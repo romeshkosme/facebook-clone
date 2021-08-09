@@ -7,12 +7,17 @@ import SubscriptionsIcon from "@material-ui/icons/Subscriptions";
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import { Avatar, IconButton } from "@material-ui/core";
-import AddIcon from '@material-ui/icons/Add';
-import ForumIcon from '@material-ui/icons/Forum';
-import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import AddIcon from "@material-ui/icons/Add";
+import ForumIcon from "@material-ui/icons/Forum";
+import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import AppsIcon from "@material-ui/icons/Apps";
+import { logoutUser } from "../../store/auth/login/actions";
+import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
 
-function Header() {
+function Header(props) {
   return (
     <div className="header">
       <div className="header__left">
@@ -34,37 +39,29 @@ function Header() {
           <FlagIcon fontSize="large" />
         </div>
         <div className="header__option">
-          <SubscriptionsIcon fontSize="large" />
-        </div>
-        <div className="header__option">
-          <StorefrontIcon fontSize="large" />
-        </div>
-        <div className="header__option">
           <SupervisorAccountIcon fontSize="large" />
         </div>
       </div>
 
-      <div className="header__right">
-        <div className="header__info">
-          <Avatar />
-          <h4>Romesh Kosme</h4>
+      <div className="header__right flex items-center">
+        <div className="bg-gray-200 rounded-full p-2">
+          <AppsIcon />
         </div>
-
-        <IconButton>
-            <AddIcon />
-        </IconButton>
-        <IconButton>
-            <ForumIcon />
-        </IconButton>
-        <IconButton>
-            <NotificationsActiveIcon />
-        </IconButton>
-        <IconButton>
-            <ExpandMoreIcon />
-        </IconButton>
+        <div className="bg-gray-200 rounded-full p-2 ml-1">
+          <ForumIcon />
+        </div>
+        <div className="bg-gray-200 rounded-full p-2 ml-1">
+          <NotificationsActiveIcon />
+        </div>
+        <div className="ml-1">
+          <Avatar onClick={() => props.logoutUser(props.history)}/>
+        </div>
       </div>
     </div>
   );
 }
 
-export default Header;
+// export default Header;
+export default withRouter(
+  connect(null, { logoutUser })(Header)
+);
