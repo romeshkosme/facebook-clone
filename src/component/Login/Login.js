@@ -69,7 +69,7 @@ function Login(props) {
                 "_required",
                 { className: "text-red-500 text-xs" }
               )}
-              {props.loginError && <span className="text-red-600 text-sm">
+              {props.loginError && <span className="text-red-600 text-sm w-full">
               {props.loginError}
               </span>}
               <button

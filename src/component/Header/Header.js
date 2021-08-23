@@ -1,24 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Header.css";
 import SearchIcon from "@material-ui/icons/Search";
 import HomeIcon from "@material-ui/icons/Home";
 import FlagIcon from "@material-ui/icons/Flag";
-import SubscriptionsIcon from "@material-ui/icons/Subscriptions";
-import StorefrontIcon from "@material-ui/icons/Storefront";
+// import SubscriptionsIcon from "@material-ui/icons/Subscriptions";
+// import StorefrontIcon from "@material-ui/icons/Storefront";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
-import { Avatar, IconButton } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
+import { Avatar } from "@material-ui/core";
+// import AddIcon from "@material-ui/icons/Add";
 import ForumIcon from "@material-ui/icons/Forum";
 import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+// import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+// import NotificationsIcon from "@material-ui/icons/Notifications";
 import AppsIcon from "@material-ui/icons/Apps";
 import { logoutUser } from "../../store/auth/login/actions";
 import { connect } from "react-redux";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import HeaderProfileMenu from "../HeaderProfileMenu/HeaderProfileMenu";
 
 function Header(props) {
+  const [profileMenu, setProfileMenu] = useState(false);
   return (
+    <React.Fragment>
     <div className="header">
       <div className="header__left">
         <img
@@ -54,14 +57,19 @@ function Header(props) {
           <NotificationsActiveIcon />
         </div>
         <div className="ml-1">
-          <Avatar onClick={() => props.logoutUser(props.history)}/>
+          <Avatar
+            className="cursor-pointer"
+            // onClick={() => props.logoutUser(props.history)}
+            onClick={() => setProfileMenu(!profileMenu)}
+          />
         </div>
       </div>
     </div>
+    {profileMenu && <HeaderProfileMenu className="" />}
+    </React.Fragment>
+
   );
 }
 
 // export default Header;
-export default withRouter(
-  connect(null, { logoutUser })(Header)
-);
+export default withRouter(connect(null, { logoutUser })(Header));

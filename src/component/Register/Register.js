@@ -6,33 +6,35 @@ import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import { onInputChange, registerUser } from "../../store/auth/register/actions";
 import { getValidator } from "../../helpers/utils";
-import moment from 'moment';
+import moment from "moment";
 
 function Register(props) {
   const validator = useRef(getValidator());
   const [, forceUpdate] = useState();
 
   const YEARS = () => {
-    const years = []
-    const dateStart = moment().subtract(50, 'y')
-    const dateEnd = moment()
-    while (dateEnd.diff(dateStart, 'years') >= 0) {
-      years.push({value: dateStart.format('YYYY'), label: dateStart.format('YYYY')})
-      dateStart.add(1, 'year')
+    const years = [];
+    const dateStart = moment().subtract(50, "y");
+    const dateEnd = moment();
+    while (dateEnd.diff(dateStart, "years") >= 0) {
+      years.push({
+        value: dateStart.format("YYYY"),
+        label: dateStart.format("YYYY"),
+      });
+      dateStart.add(1, "year");
     }
-    return years
-   }
+    return years;
+  };
 
-   const DAYS = () => {
-     const days = []
-     let i = 1
-     while (i < 32) {
-       days.push({value: i, label: i})
-       i++;
-     }
-     return days
-
-   }
+  const DAYS = () => {
+    const days = [];
+    let i = 1;
+    while (i < 32) {
+      days.push({ value: i, label: i });
+      i++;
+    }
+    return days;
+  };
 
   const months = [
     { value: "January", label: "January" },
@@ -53,19 +55,18 @@ function Register(props) {
     e.preventDefault();
     validator.current.showMessages();
     forceUpdate(1);
-    const data = {}
-    data.firstName = props.firstName
-    data.lastName = props.lastName
-    data.email = props.email
-    data.password = props.password
-    data.gender = props.gender
+    const data = {};
+    data.firstName = props.firstName;
+    data.lastName = props.lastName;
+    data.email = props.email;
+    data.password = props.password;
+    data.gender = props.gender;
     data.dateOfBirth = {
       date: props.date,
       month: props.month,
       year: props.year,
-    }
-    console.log("data::", data)
-    props.registerUser(data)
+    };
+    props.registerUser(data, props.history);
   };
 
   return (
@@ -132,6 +133,11 @@ function Register(props) {
                 className="rounded-md my-1 w-full border-gray-300 required mb-0"
                 onChange={(e) => props.onInputChange("email", e.target.value)}
               />
+              {props.registrationError && (
+                <span className="text-red-500 text-xs w-full">
+                  Email Already Registered!
+                </span>
+              )}
               {validator.current.message(
                 "email",
                 props.email,
@@ -148,57 +154,69 @@ function Register(props) {
                   props.onInputChange("password", e.target.value)
                 }
               />
-              {validator.current.message("password", props.password, "_required", {
-                className: "text-red-500 text-xs w-full",
-              })}
+              {validator.current.message(
+                "password",
+                props.password,
+                "_required",
+                {
+                  className: "text-red-500 text-xs w-full",
+                }
+              )}
               <div className="w-full">
                 <div className="flex justify-between items-end">
-                <p className="p-2 pb-0 pl-1 text-gray-400 text-sm">
-                  Date of Birth
-                </p>
-                {validator.current.message(
-                  "date",
-                  props.state,
-                  "_required",
-                  { className: "text-red-500 text-xs" }
-                )}
+                  <p className="p-2 pb-0 pl-1 text-gray-400 text-sm">
+                    Date of Birth
+                  </p>
+                  {validator.current.message("date", props.state, "_required", {
+                    className: "text-red-500 text-xs",
+                  })}
                 </div>
                 <div className="flex flex-1 flex justify-between">
                   <Select
-                    value={props.date ? DAYS().filter(option => option.value === props.date) : ""}
+                    value={
+                      props.date
+                        ? DAYS().filter((option) => option.value === props.date)
+                        : ""
+                    }
                     options={DAYS()}
                     className="mx-1 w-full"
-                    onChange={(e) =>
-                      props.onInputChange("date", e.value)
-                    }
+                    onChange={(e) => props.onInputChange("date", e.value)}
                   />
                   <Select
-                    value={props.month ? months.filter(option => option.value === props.month) : ""}
+                    value={
+                      props.month
+                        ? months.filter(
+                            (option) => option.value === props.month
+                          )
+                        : ""
+                    }
                     options={months}
                     className="mx-1  w-full"
-                    onChange={(e) =>
-                      props.onInputChange("month", e.value)
-                    }
+                    onChange={(e) => props.onInputChange("month", e.value)}
                   />
                   <Select
-                    value={props.year ? YEARS().filter(option => option.value === props.year) : ""}
+                    value={
+                      props.year
+                        ? YEARS().filter(
+                            (option) => option.value === props.year
+                          )
+                        : ""
+                    }
                     options={YEARS()}
                     className="mx-1 w-full"
-                    onChange={(e) =>
-                      props.onInputChange("year", e.value)
-                    }
+                    onChange={(e) => props.onInputChange("year", e.value)}
                   />
                 </div>
               </div>
               <div className="w-full">
                 <div className="flex justify-between items-end">
-                <p className="p-2 pb-0 pl-1 text-gray-400 text-sm">Gender</p>
-                {validator.current.message(
-                  "gender",
-                  props.gender,
-                  "_required",
-                  { className: "text-red-500 text-xs" }
-                )}
+                  <p className="p-2 pb-0 pl-1 text-gray-400 text-sm">Gender</p>
+                  {validator.current.message(
+                    "gender",
+                    props.gender,
+                    "_required",
+                    { className: "text-red-500 text-xs" }
+                  )}
                 </div>
                 <div className="flex">
                   {genders.map((item, id) => (
@@ -242,9 +260,31 @@ function Register(props) {
   );
 }
 
-const mapStateToProps = state => {
-  const { firstName, lastName, email, password, date, month, year, gender } = state.Account;
-  return { firstName, lastName, email, password, date, month, year, gender };
+const mapStateToProps = (state) => {
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    date,
+    month,
+    year,
+    gender,
+    registrationError,
+  } = state.Account;
+  return {
+    firstName,
+    lastName,
+    email,
+    password,
+    date,
+    month,
+    year,
+    gender,
+    registrationError,
+  };
 };
 
-export default withRouter(connect(mapStateToProps, { onInputChange, registerUser })(Register));
+export default withRouter(
+  connect(mapStateToProps, { onInputChange, registerUser })(Register)
+);

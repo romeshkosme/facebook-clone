@@ -1,10 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import "./MessageSender.css";
 import { Avatar } from "@material-ui/core";
 import { Videocam, PhotoLibrary, InsertEmoticon } from "@material-ui/icons";
 import { onInputChange, createPost } from "../../store/post/actions";
 import { connect } from "react-redux";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { getValidator } from "../../helpers/utils";
 
 function MessageSender(props) {
@@ -12,12 +12,10 @@ function MessageSender(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validator.current.allValid()) {
-      console.log("post ", props.postContent);
       props.createPost({
         content: props.postContent
       })
     } else {
-      console.log("validator erro");
       validator.current.showMessages();
     }
   };

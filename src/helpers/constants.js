@@ -17,4 +17,4 @@ export const genders = [
 ]
 
 
-export const apiBaseUrl = "http://localhost:8080/"
+export const apiBaseUrl = "http://localhost:8080/api/"

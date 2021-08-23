@@ -1,4 +1,4 @@
-import { ON_LOGIN_INPUT_CHANGE, CREATE_POST, GET_ALL, GET_ALL_SUCCESS } from "./actionTypes";
+import { ON_LOGIN_INPUT_CHANGE, GET_ALL_SUCCESS } from "./actionTypes";
 
 const initialState = {
   postContent: null,

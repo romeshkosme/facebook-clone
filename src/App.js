@@ -6,8 +6,6 @@ import { authProtectedRoutes, publicRoutes } from "./routes/";
 import AppRoute from "./routes/route";
 
 function App() {
-  console.log("authProtectedRoutes :: ", authProtectedRoutes)
-  console.log("publicRoutes :: ", publicRoutes)
   return (
     <React.Fragment>
       <Router>

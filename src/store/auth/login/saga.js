@@ -1,4 +1,4 @@
-import { takeEvery, fork, put, all, call } from "redux-saga/effects";
+import { takeEvery, fork, put, all } from "redux-saga/effects";
 import axios from "axios";
 import Cookie from "js-cookie";
 
